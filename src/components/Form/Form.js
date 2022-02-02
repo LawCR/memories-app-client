@@ -10,32 +10,43 @@ const Form = ({currentId, setCurrentId}) => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const [postData, setPostData] = useState({
-      creator: '',
       title: '',
       message: '',
       tags: '',
       selectedFile: ''
     });
+    const post = useSelector((state) => currentId ? state.posts.posts.find((p) => p._id === currentId) : null)
+    const user = JSON.parse(localStorage.getItem('profile'))
 
-    const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null)
     useEffect(() => {
         if (post) setPostData(post)
     }, [post]);
 
+    const clear = () => {
+        setCurrentId(null)
+        setPostData({title: '',message: '',tags: '',selectedFile: ''})
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
         if (currentId) {
-            dispatch(updatePost(currentId, postData))
+            dispatch(updatePost(currentId, {...postData, name: user?.result?.name}))
         } else {
-            dispatch(createPost(postData))
+            dispatch(createPost({...postData, name: user?.result?.name}))
         }
         clear()
     }
-
-    const clear = () => {
-        setCurrentId(null)
-        setPostData({creator: '',title: '',message: '',tags: '',selectedFile: ''})
+    
+    if (!user?.result?.name) {
+        return (
+            <Paper className={classes.paper}>
+                <Typography variant='h6' align='center'>
+                    Inicia sesión para que puedas crear tus recuerdos y poder interactuar con las de otros.
+                </Typography>
+            </Paper>
+        )
     }
+    
 
 
 
@@ -43,14 +54,6 @@ const Form = ({currentId, setCurrentId}) => {
       <Paper className={classes.paper}>
           <form autoCapitalize='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
               <Typography variant='h6'>{currentId ? 'Actualizando' : 'Creando'} un Recuerdo</Typography>
-              <TextField 
-                  name="creator" 
-                  variant="outlined" 
-                  label="Creador" 
-                  fullWidth 
-                  value={postData.creator}
-                  onChange={(e) => setPostData({...postData, creator: e.target.value})}
-              />
               <TextField 
                   name="title" 
                   variant="outlined" 
@@ -83,7 +86,7 @@ const Form = ({currentId, setCurrentId}) => {
                   />
               </div>
               <Button className={classes.buttonSubmit} variant='contained' color="primary" size='large' type='submit' fullWidth>{currentId ? 'ACTUALIZAR' : 'CREAR'}</Button>
-              <Button variant='contained' color="secondary" size='small' type='submit' onClick={clear} fullWidth>Limpiar</Button>
+              <Button variant='contained' color="secondary" size='small' onClick={clear} fullWidth>Limpiar</Button>
           </form>
       </Paper>
     );
