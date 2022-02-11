@@ -66,7 +66,6 @@ const Auth = () => {
     }
     const googleFailure = (error) => {
         console.log('Google SignIn tuvo un error, Inténtelo denuevo más tarde');
-        console.log(error);
     }
     return (
         <Container component="main" maxWidth="xs">
@@ -97,7 +96,7 @@ const Auth = () => {
                     </Button>
                     {/* Secret Client:  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 */}
                     <GoogleLogin 
-                        clientId='1070022173240-4n7ca91vbg646irsf50tqj28br1e30p4.apps.googleusercontent.com'
+                        clientId={process.env.REACT_APP_GOOGLE_URL}
                         render={(renderProps) => (
                             <Button 
                                 className='classes.googleButton' 

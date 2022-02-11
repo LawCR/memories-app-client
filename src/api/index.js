@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API = axios.create({baseURL: 'https://makingmemories-app.herokuapp.com/api'})
-// const API = axios.create({baseURL: 'http://localhost:8081/api'})
+// const API = axios.create({baseURL: 'https://makingmemories-app.herokuapp.com/api'})
+const API = axios.create({baseURL: 'http://localhost:8081/api'})
 
 
 API.interceptors.request.use((req) => {
@@ -13,7 +13,13 @@ API.interceptors.request.use((req) => {
 });
 
 // Para listar los post
-export const fetchPosts = () => API.get('/posts')
+export const fetchPosts = (page) => API.get(`/posts?page=${page}`)
+
+// Para listar los post
+export const fetchPost = (id) => API.get(`/posts/${id}`)
+
+// Para listar los post por busqueda
+export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`)
 
 // Para crear un post
 export const createPost = (newPost) => API.post('/posts', newPost)
@@ -32,3 +38,4 @@ export const signIn = (formData) => API.post(`/users/signin`, formData)
 
 // AUTH Sign up
 export const signUp = (formData) => API.post(`/users/signup`, formData)
+

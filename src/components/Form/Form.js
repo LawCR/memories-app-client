@@ -4,11 +4,13 @@ import useStyles from './styles';
 import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts';
+import { useNavigate } from 'react-router-dom';
 
 
 const Form = ({currentId, setCurrentId}) => {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [postData, setPostData] = useState({
       title: '',
       message: '',
@@ -32,7 +34,7 @@ const Form = ({currentId, setCurrentId}) => {
         if (currentId) {
             dispatch(updatePost(currentId, {...postData, name: user?.result?.name}))
         } else {
-            dispatch(createPost({...postData, name: user?.result?.name}))
+            dispatch(createPost({...postData, name: user?.result?.name}, navigate))
         }
         clear()
     }
@@ -46,12 +48,9 @@ const Form = ({currentId, setCurrentId}) => {
             </Paper>
         )
     }
-    
-
-
 
     return(
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} elevation={6}>
           <form autoCapitalize='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
               <Typography variant='h6'>{currentId ? 'Actualizando' : 'Creando'} un Recuerdo</Typography>
               <TextField 

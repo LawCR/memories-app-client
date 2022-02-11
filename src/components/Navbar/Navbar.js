@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import memories from '../../images/memories.png';
+import memoriesText from '../../images/memories-Text.png';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import { LOGOUT, LOGOUT_LOADING } from '../../types';
@@ -39,11 +40,11 @@ const Navbar = () => {
     const nombreCompleto = (user?.result.name.split(' ').length >= 3) ? user?.result.name.split(' ')[0] + " " + user?.result.name.split(' ')[2] : user?.result.name
     return (
         <AppBar className={classes.appBar} position="static" color="inherit">
-            <div className={classes.brandContainer}>
-
-                <Typography className={classes.heading} component={Link} to="/" variant="h2" align="center">MyMemories</Typography>
-                <img className={classes.image} src={memories} alt="icon" height="60" />
-            </div>
+            <Link to="/" className={classes.brandContainer}>
+                {/* <Typography className={classes.heading} component={Link} to="/" variant="h2" align="center">MyMemories</Typography> */}
+                <img src={memoriesText} alt="icon" height="45px" />
+                <img className={classes.image} src={memories} alt="icon" height="40px" />
+            </Link>
             <Toolbar className={classes.toolbar}>
                 {user 
                     ? 

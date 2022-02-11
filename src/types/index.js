@@ -1,9 +1,12 @@
 // LOADING
-export const LOADING = "LOADING"
-export const LOADING_EXITO = "LOADING_EXITO"
+export const START_LOADING = "START_LOADING"
+export const END_LOADING     = "END_LOADING"
 
 // POST
 export const FETCH_ALL_POST = 'FETCH_ALL_POST'
+export const FETCH_POST = 'FETCH_POST'
+export const CLEAR_POST = 'CLEAR_POST'
+export const FETCH_BY_SEARCH = 'FETCH_BY_SEARCH'
 export const CREATE_POST = 'CREATE_POST'
 export const UPDATE_POST = 'UPDATE_POST'
 export const DELETE_POST = 'DELETE_POST'
@@ -16,6 +19,8 @@ export const AUTH_SIGNUP = 'AUTH_SIGNUP'
 
 export const LOGOUT_LOADING = 'LOGOUT_LOADING'
 export const LOGOUT = 'LOGOUT'
+export const GET_USER = 'GET_USER'
+
 
 
 // AGREGAR PRODUCTO
