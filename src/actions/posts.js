@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { CLEAR_POST, CREATE_POST, DELETE_POST, END_LOADING, FETCH_ALL_POST, FETCH_BY_SEARCH, FETCH_POST, LIKE_POST, START_LOADING, UPDATE_POST } from '../types'
+import { CLEAR_POST, CREATE_COMMENT, CREATE_POST, DELETE_POST, END_LOADING, FETCH_ALL_POST, FETCH_BY_SEARCH, FETCH_POST, LIKE_POST, START_LOADING, UPDATE_POST } from '../types'
 
 // Action para listar los Posts
 export const getPosts = (page) => async(dispatch) => {
@@ -77,6 +77,17 @@ export const likePost = (id) => async(dispatch) => {
     try {
         const { data } = await api.likePost(id, user?.token);
         dispatch({ type: LIKE_POST, payload: data})
+    } catch (error) { 
+        console.log(error.message);
+    }
+}
+
+export const commentPost = (value, id) => async(dispatch) => {
+    try {
+        const { data } = await api.commentPost(value, id);
+        dispatch({ type: CREATE_COMMENT, payload: data})
+        // Para retornar los comentarios cuando llamen la función
+        return data.comments
     } catch (error) { 
         console.log(error.message);
     }

@@ -33,6 +33,9 @@ export const deletePost = (id) => API.delete(`/posts/${id}`)
 // Para actualizar el like
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`)
 
+// Para crear un comentario
+export const commentPost = (value, id) => API.post(`/posts/${id}/commentPost`, {value})
+
 // AUTH Sign in
 export const signIn = (formData) => API.post(`/users/signin`, formData)
 

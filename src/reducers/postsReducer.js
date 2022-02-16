@@ -1,4 +1,4 @@
-import { CLEAR_POST, CREATE_POST, DELETE_POST, END_LOADING, FETCH_ALL_POST, FETCH_BY_SEARCH, FETCH_POST, LIKE_POST, START_LOADING, UPDATE_POST } from "../types";
+import { CLEAR_POST, CREATE_COMMENT, CREATE_POST, DELETE_POST, END_LOADING, FETCH_ALL_POST, FETCH_BY_SEARCH, FETCH_POST, LIKE_POST, START_LOADING, UPDATE_POST } from "../types";
 const initialState = {
     posts: [],
     post: {},
@@ -44,6 +44,17 @@ const postsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 posts: state.posts.map((post) => post._id === action.payload._id ? action.payload : post),
+            }
+        case CREATE_COMMENT:
+            return {
+                ...state,
+                posts: state.posts.map((post) => {
+                    //Cambia el post que recibio el comentario
+                    if (post._id === action.payload._id) return action.payload
+                    
+                    // Retorna los otros posts
+                    return post
+                }),
             }
         case DELETE_POST:
             return {

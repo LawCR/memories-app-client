@@ -61,7 +61,6 @@ export default makeStyles((theme) => ({
     marginBottom: "20px",
   },
   recommendedPosts: {
-    
   },
   recommendedPostItem: {
     cursor: 'pointer',
@@ -76,4 +75,29 @@ export default makeStyles((theme) => ({
     borderRadius: '15px', 
     height: '39vh',
   },
+
+  // CommentSection
+  commentsOuterContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column-reverse'
+    },
+  },
+  commentsInnerContainer: {
+    height: '200px',
+    overflowY: 'auto',
+    marginRight: '30px',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      marginTop: '20px',
+      marginRight: '0'
+    },
+  },
+  commentsInputContainer: {
+    width: '70%',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    },
+  }
 }));

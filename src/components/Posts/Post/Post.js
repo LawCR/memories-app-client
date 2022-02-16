@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import { Button, ButtonBase, Card, CardActions, CardContent, CardMedia, Typography } from '@material-ui/core';
-import React from 'react';
 import useStyles from './styles';
 
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
@@ -17,13 +17,31 @@ const Post = ({post, setCurrentId}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const user = JSON.parse(localStorage.getItem('profile'));
+    
+    // Variables y Estados
+    const [likes, setLikes] = useState(post?.likes)
+    const userId = user?.result?.googleId || user?.result?._id
+    const hasLikedPost = post.likes.find((like) => like === userId)
+
+    // Función like para acelerar el proceso de dar like
+    const handleLike = async() => {
+        dispatch(likePost(post._id))
+        if(hasLikedPost) {
+            // Si le da dislike
+            setLikes(post.likes.filter((id) => id !== userId))
+        } else {
+            // Si le da Like
+            setLikes([...post.likes, userId])
+        }
+    }
+
     const Likes = () => {
-    if (post.likes.length > 0) {
-        return post.likes.find((like) => like === (user?.result?.googleId || user?.result?._id))
+    if (likes.length > 0) {
+        return likes.find((like) => like === userId)
         ? (
-            <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length > 2 ? `Tú y ${post.likes.length - 1} más` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}` }</>
+            <><ThumbUpAltIcon fontSize="small" />&nbsp;{likes.length > 2 ? `Tú y ${likes.length - 1} más` : `${likes.length} like${likes.length > 1 ? 's' : ''}` }</>
         ) : (
-            <><ThumbUpAltOutlined fontSize="small" />&nbsp;{post.likes.length} {post.likes.length === 1 ? 'Like' : 'Likes'}</>
+            <><ThumbUpAltOutlined fontSize="small" />&nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}</>
         );
     }
 
@@ -31,6 +49,8 @@ const Post = ({post, setCurrentId}) => {
     };
 
     const openPost = () => navigate(`/posts/${post._id}`)
+
+    
 
     return (
         <Card className={classes.card} raised elevation={6}>
@@ -60,7 +80,7 @@ const Post = ({post, setCurrentId}) => {
                 </CardContent>
             
             <CardActions className={classes.cardActions}>
-                <Button size='small' color='primary' disabled={!user?.result} onClick={() => dispatch(likePost(post._id))}>
+                <Button size='small' color='primary' disabled={!user?.result} onClick={handleLike}>
                     <Likes />   
                 </Button>
                 {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
